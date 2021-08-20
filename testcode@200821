@@ -1,0 +1,83 @@
+def GenerateId(request):
+    uidarr = ['uuid1','uuid4']
+    uidict = dict()
+    q = request.GET['q']  
+    if q:
+        try:
+            if q == uidarr[0]:
+                uid1 = uuid.uuid1()
+                uidict['uid1'] = uid1
+                print("Generating Random Id Using uuid1():", uid1)               
+            elif q == uidarr[1]:
+                uid4 = uuid.uuid4()
+                uidict['uid4'] = uid4
+                print("Generating Random Id Using uuid4():", uid4) 
+            else:
+                 print("Please Chose UUID Version......")   
+                 uidict['error'] = "Something went wrong......"                     
+ 
+        except Exception as e:
+              return e
+     else:
+          uidict['error'] = "Something went wrong......"
+          print("Something went wrong......")
+
+    context = {
+       
+        'uidarr':uidarr,
+        'uidict': uidict,
+    }
+    return render(request, 'app/home.html', context)
+
+
+def GenerateId(request):
+    uidarr = ['uuid1','uuid4']
+    uidict = dict()
+    idinfo = dict()
+    msg = ""
+    q = request.GET['q']  
+    if q != "":
+        try:
+            if q == uidarr[0]:
+                uid1 = uuid.uuid1()
+                uidict['uid1'] = uid1
+                print("Generating Random Id Using uuid1():", uid1) 
+
+                print("=========================================")    
+                print ("The Representations of uuid1() are : ")
+                print ("byte Representation : ",end="")
+                print(repr(uid1.bytes))
+                idinfo['byterepr'] = repr(uid1.bytes)
+
+                print ("Integer Representation : ",end="")
+                print(repr(uid1.int))
+                idinfo['intrepr'] = repr(uid1.int)
+
+                print ("Hex Representation : ",end="")
+                print(repr(uid1.hex))
+                idinfo['hexrepr'] = repr(uid1.hex)
+                print("\n")       
+
+            elif q == uidarr[1]:
+                uid4 = uuid.uuid4()
+                uidict['uid4'] = uid4
+                print("Generating Random Id Using uuid4():", uid4) 
+            
+            else:
+                 print("Please Chose UUID Version......")   
+                 uidict['error'] = "Please Provide Valid Input"                     
+ 
+        except Exception as e:
+              uidict['exception'] = "Something went wrong......"   
+    else:
+        msg = "User Input Can't be null......"   
+
+    print(idinfo)
+    context = {
+       
+        'uidarr':uidarr,
+        'uidict': uidict,
+        'message':msg,
+    }
+     
+    return render(request, 'app/home.html', context)

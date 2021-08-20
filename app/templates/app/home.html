@@ -1,0 +1,107 @@
+{% extends 'base.html' %}
+{% block title %}Pyscript Tags Analyzer{% endblock title %}
+
+{% block active %} active{% endblock active %}
+
+
+{% block content %}
+<div class="col-md-8 p-4 text-white">       
+    <h4 class="fst-italic">Basic Unique User ID Generator</h4>
+    <hr class="bg-light">
+    <h1 class="display-4 fst-italic">Select UUID Version</h1>
+    <form action="{% url 'generate-id' %}" method="GET">
+        <div class="form-group">
+            <label for="q"></label>
+            <input list = "uids" type="text" class="form-control" id="q" name='q' value="{{request.GET.q}}" placeholder="Select UUID Type.........">
+            <datalist id="uids">
+                {% for uids in uidarr %}
+                <option value="{{uids}}">
+               {% endfor %}
+            </datalist>
+        </div>
+        <button type="submit" class="btn btn-primary">Generate</button>
+        <input type="reset" class="btn btn-warning">  
+        <a href="{% url 'home' %}" class="btn btn-info"> Refresh</a>  
+    </form> 
+    <hr class="bg-light">
+    
+
+<!-- {% if message %}
+        <div class="alert alert-warning">
+            <h4>Please Select UUID Type</h4>                
+        </div>
+{% endif %} -->
+
+
+{% if message %}
+<div class="alert alert-warning">
+    <h4>Please Select UUID Type</h4>                
+</div>
+{% endif %}
+
+{% if uidict %}
+        {% if uidict.uid1 %}    
+        <ul class="list-group bg-dark p-4 my-2">
+            <h4>Generated Random Id for UUID1</h4>
+            <li class="list-group-item text-dark my-2">
+                <span> {{uidict.uid1}}</span>
+            </li>
+        </ul>
+ 
+        {% elif uidict.uid4 %}
+        <ul class="list-group my-2">
+            <strong>Generated Random Id Using uuid4()</strong> 
+            <li class="list-group-item text-dark my-2">
+                <span> {{uidict.uid4}}</span>
+            </li>
+        </ul>  
+
+        {% elif uidict.error %}
+        <ul class="list-group my-2">
+            <li class="list-group-item text-dark my-2">
+                <strong><h4>{{uidict.error}}</h4>  </strong> 
+            </li>
+        </ul>    
+        {% endif %}
+{% endif %}
+
+<ul class="list-group bg-dark p-4">
+{% if idinfo %}
+<h4>Representation Info.............</h4>   
+    <li class="list-group-item text-dark my-2">
+        <strong>Byte Representation:</strong>{{idinfo.bytrepr}}
+    </li>
+
+    <li class="list-group-item text-dark my-2">
+        <strong>Integer Representation:</strong>: {{idinfo.hexrepr}}
+    </li>
+
+    <li class="list-group-item text-dark my-2">
+        <strong>Integer Representation:</strong>: {{idinfo.hexrepr}}
+    </li>
+</ul>    
+{% endif %}
+</ul>
+
+<ul class="list-group  bg-dark p-4 ">
+{% if componentinfo %}
+    <h4>Components Info..............</h4>
+    <li class="list-group-item text-dark my-2">
+        <strong>Version:</strong> {{componentinfo.version}}
+    </li>
+    <li class="list-group-item text-dark my-2">
+        <strong>Variant:</strong> {{componentinfo.variant}}
+    </li>
+    <li class="list-group-item text-dark my-2">
+        <strong>Fields:</strong> {{componentinfo.fields}}
+    </li>
+    <li class="list-group-item text-dark my-2">
+        <strong>Time:</strong> {{componentinfo.node}}
+    </li>
+{% endif %}
+</ul>
+
+</div>
+
+{% endblock content %}
+
